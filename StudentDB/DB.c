@@ -7,28 +7,29 @@
 
 #include "DB.h"
 #include <stdbool.h>
-#define a database->array
+#define a database.array
 
-struct db SDB_CreateDataBase(void)
+DataBase database;
+DataBase SDB_CreateDataBase(void)
 {
-    struct db database;
+    DataBase database;
     database.enteries = 0;
     return database;
 }
-bool SDB_IsFull(struct db *database)
+
+bool SDB_IsFull()
 {
-    return database->enteries == MAX;
+    return database.enteries == MAX;
 }
 
-unsigned char SDB_GetUsedSize(struct db *database)
+unsigned char SDB_GetUsedSize()
 {
-    return database->enteries;
+    return database.enteries;
 }
 
-bool SDB_AddEntry(unsigned char id, unsigned char year, unsigned char *courses,
-                  unsigned char* degrees, struct db *database)
+bool SDB_AddEntry(uint8 id, uint8 year, uint8 *courses, uint8 *degrees)
 {
-    struct ent entry = {id,year,courses[0],courses[1],courses[2],
+    student entry = {id,year,courses[0],courses[1],courses[2],
                         degrees[0],degrees[1],degrees[2]};
     bool flag = 1;
     for(int i = 0; i < COUNT; i++)
@@ -40,11 +41,11 @@ bool SDB_AddEntry(unsigned char id, unsigned char year, unsigned char *courses,
         }
     }
     
-    if(!SDB_IsFull(database) && !SDB_IsIdExist(id, database) && flag)
+    if(!SDB_IsFull() && !SDB_IsIdExist(id) && flag)
     {
-        database->array[database->enteries] = entry;
-        database->id_list[database->enteries] = entry.student_id;
-        database->enteries++;
+        a[database.enteries] = entry;
+        database.id_list[database.enteries] = entry.student_id;
+        database.enteries++;
         return 1;
     }
     else
@@ -53,18 +54,18 @@ bool SDB_AddEntry(unsigned char id, unsigned char year, unsigned char *courses,
     }
 }
 
-void SDB_DeleteEntry(unsigned char id,struct db *database)
+void SDB_DeleteEntry(uint8 id)
 {
-    for(int i = 0; i < database->enteries;i++)
+    for(int i = 0; i < database.enteries;i++)
     {
-        if(database->array[i].student_id == id)
+        if(a[i].student_id == id)
         {
-            for(int j = i ; j < database->enteries - 1; j++)
+            for(int j = i ; j < database.enteries - 1; j++)
             {
-                database->array[j] = database->array[j + 1];
-                database->id_list[j] = database->id_list[j + 1];
+                a[j] = a[j + 1];
+                database.id_list[j] = database.id_list[j + 1];
             }
-            database->enteries--;
+            database.enteries--;
             return;
         }
     }
@@ -72,23 +73,22 @@ void SDB_DeleteEntry(unsigned char id,struct db *database)
     return;
 }
 
-bool SDB_ReadEntry(unsigned char id, unsigned char *year, unsigned char *courses,
-                   unsigned char *degrees, struct db *database)
+bool SDB_ReadEntry(uint8 id, uint8 *year, uint8 *courses, uint8 *degrees)
 {
-    for(int i = 0; i < database->enteries;i++)
+    for(int i = 0; i < database.enteries;i++)
     {
-        if(database->array[i].student_id == id)
+        if(a[i].student_id == id)
         {
-            *year = database->array[i].student_year;
+            *year = a[i].student_year;
             
             for(int j = 0; j < COUNT; j++)
             {
-                courses[j] = database->array[i].courses[j];
+                courses[j] = a[i].courses[j];
             }
             
             for(int j = 0; j < COUNT; j++)
             {
-                degrees[j] = database->array[i].degrees[j];
+                degrees[j] = a[i].degrees[j];
             }
             
             return 1;
@@ -97,20 +97,20 @@ bool SDB_ReadEntry(unsigned char id, unsigned char *year, unsigned char *courses
     return 0;
 }
 
-void SDB_GetIdList(struct db *database,unsigned char *count, unsigned char *list)
+void SDB_GetIdList(uint8 *count, uint8 *list)
 {
-    *count = database->enteries;
-    for(int i = 0; i < database->enteries; i++)
+    *count = database.enteries;
+    for(int i = 0; i < database.enteries; i++)
     {
-        list[i] = database->id_list[i];
+        list[i] = database.id_list[i];
     }
 }
 
-bool SDB_IsIdExist(unsigned char id, struct db *database)
+bool SDB_IsIdExist(uint8 id)
 {
-    for(int i = 0; i < database->enteries; i++)
+    for(int i = 0; i < database.enteries; i++)
     {
-        if(database->id_list[i] == id)
+        if(database.id_list[i] == id)
         {
             return 1;
         }
@@ -118,17 +118,17 @@ bool SDB_IsIdExist(unsigned char id, struct db *database)
     return 0;
 }
 
-char SDB_IsIdExist2(unsigned char id, struct db *database)
+/*uint8 SDB_IsIdExist2(uint8 id)
 {
-    if(database->enteries == 0)
+    if(database.enteries == 0)
     {
         return 0;
     }
     else
     {
-        unsigned char high = database->enteries - 1;
-        unsigned char low = 0;
-        unsigned char mid;
+        uint8 high = database.enteries - 1;
+        uint8 low = 0;
+        uint8 mid;
         while (high >= low)
         {
             mid = (high + low) / 2;
@@ -148,4 +148,4 @@ char SDB_IsIdExist2(unsigned char id, struct db *database)
         }
         return (a[low].student_id - id) < (id - a[high].student_id) ? a[low].student_id : a[high].student_id;
     }
-}
+}*/

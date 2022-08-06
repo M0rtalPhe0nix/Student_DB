@@ -14,31 +14,34 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-struct ent
+typedef unsigned char uint8;
+typedef struct ent
 {
-    unsigned char student_id;
-    unsigned char student_year;
-    unsigned char courses[COUNT];
-    unsigned char degrees[COUNT];
-};
-struct db
+    uint8 student_id;
+    uint8 student_year;
+    uint8 courses[COUNT];
+    uint8 degrees[COUNT];
+} student;
+typedef struct db
 {
     struct ent array[MAX];
     int enteries;
-    unsigned char id_list[MAX];
-};
+    uint8 id_list[MAX];
+} DataBase;
 
-struct db SDB_CreateDataBase(void);
-bool SDB_IsFull(struct db *database);
-unsigned char SDB_GetUsedSize(struct db *database);
-bool SDB_AddEntry(unsigned char id, unsigned char year, unsigned char *courses,
-                  unsigned char* degrees, struct db *database);
-void SDB_DeleteEntry(unsigned char id,struct db *database);
-bool SDB_ReadEntry(unsigned char id, unsigned char *year, unsigned char *courses,
-                   unsigned char *degrees, struct db *database);
-void SDB_GetIdList(struct db *database,unsigned char *count, unsigned char *list);
-bool SDB_IsIdExist(unsigned char id, struct db *database);
-char SDB_IsIdExist2(unsigned char id, struct db *database);
+extern DataBase database;
+
+DataBase SDB_CreateDataBase(void);
+bool SDB_IsFull(void);
+uint8 SDB_GetUsedSize(void);
+bool SDB_AddEntry(uint8 id, uint8 year, uint8 *courses, uint8 *degrees);
+void SDB_DeleteEntry(uint8 id);
+bool SDB_ReadEntry(uint8 id, uint8 *year, uint8 *courses, uint8 *degrees);
+void SDB_GetIdList(uint8 *count, uint8 *list);
+bool SDB_IsIdExist(uint8 id);
+//uint8 SDB_IsIdExist2(uint8 id);
+
+
 
 
 #endif /* DB_h */
