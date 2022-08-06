@@ -38,7 +38,7 @@ bool SDB_ReadEntry(unsigned char id, unsigned char *year, unsigned char *courses
                    unsigned char *degrees, struct db *database);
 void SDB_GetIdList(struct db *database,unsigned char *count, unsigned char *list);
 bool SDB_IsIdExist(unsigned char id, struct db *database);
-
+char SDB_IsIdExist2(unsigned char id, struct db *database);
 
 
 #endif /* DB_h */

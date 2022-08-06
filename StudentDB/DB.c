@@ -7,7 +7,7 @@
 
 #include "DB.h"
 #include <stdbool.h>
-
+#define a database->array
 
 struct db SDB_CreateDataBase(void)
 {
@@ -116,4 +116,36 @@ bool SDB_IsIdExist(unsigned char id, struct db *database)
         }
     }
     return 0;
+}
+
+char SDB_IsIdExist2(unsigned char id, struct db *database)
+{
+    if(database->enteries == 0)
+    {
+        return 0;
+    }
+    else
+    {
+        unsigned char high = database->enteries - 1;
+        unsigned char low = 0;
+        unsigned char mid;
+        while (high >= low)
+        {
+            mid = (high + low) / 2;
+            if (id < a[mid].student_id)
+            {
+                high = mid - 1;
+            }
+            else if (id > a[mid].student_id)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                return a[mid].student_id;
+            }
+
+        }
+        return (a[low].student_id - id) < (id - a[high].student_id) ? a[low].student_id : a[high].student_id;
+    }
 }

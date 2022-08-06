@@ -23,7 +23,7 @@ int main()
     SDB_AddEntry(7, 3, courses_id, degrees, &database);
     SDB_AddEntry(8, 3, courses_id, degrees, &database);
     SDB_AddEntry(9, 3, courses_id, degrees, &database);
-    SDB_AddEntry(10, 3, courses_id, degrees, &database);
+    /*SDB_AddEntry(10, 3, courses_id, degrees, &database);
     printf("%d\n",SDB_GetUsedSize(&database));
     SDB_DeleteEntry(5, &database);
     printf("%d\n",SDB_GetUsedSize(&database));
@@ -33,5 +33,7 @@ int main()
     unsigned char year;
     
     SDB_ReadEntry(4, &year, courses_out, degrees_out, &database);
-    SDB_GetIdList(&database, &year, degrees_out);
+    SDB_GetIdList(&database, &year, degrees_out);*/
+    SDB_DeleteEntry(2, &database);
+    printf("%d\n",SDB_IsIdExist2(2, &database));
 }
