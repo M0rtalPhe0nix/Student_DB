@@ -24,7 +24,7 @@ typedef struct ent
 } student;
 typedef struct db
 {
-    struct ent array[MAX];
+    student array[MAX];
     int enteries;
     uint8 id_list[MAX];
 } DataBase;

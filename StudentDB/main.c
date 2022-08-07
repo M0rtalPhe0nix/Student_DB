@@ -36,5 +36,5 @@ int main()
     SDB_ReadEntry(4, &year, courses_out, degrees_out, &database);
     SDB_GetIdList(&database, &year, degrees_out);*/
     SDB_DeleteEntry(2);
-    printf("%d\n",SDB_IsIdExist2(2));
+    printf("%d\n",SDB_IsIdExist(2));
 }
