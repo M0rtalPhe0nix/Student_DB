@@ -14,13 +14,14 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-typedef unsigned char uint8;
+typedef unsigned int uint8;
 typedef struct ent
 {
     uint8 student_id;
     uint8 student_year;
     uint8 courses[COUNT];
     uint8 degrees[COUNT];
+    bool empty;
 } student;
 typedef struct db
 {

@@ -7,6 +7,7 @@
 
 #include "DB.h"
 #include <stdbool.h>
+#include <stdlib.h>
 #define a database.array
 
 DataBase database;
@@ -14,6 +15,10 @@ DataBase SDB_CreateDataBase(void)
 {
     DataBase database;
     database.enteries = 0;
+    for(int i = 0; i < COUNT; i++)
+    {
+        a[i].empty = 1;
+    }
     return database;
 }
 
@@ -22,7 +27,7 @@ bool SDB_IsFull()
     return database.enteries == MAX;
 }
 
-unsigned char SDB_GetUsedSize()
+uint8 SDB_GetUsedSize()
 {
     return database.enteries;
 }
@@ -30,7 +35,7 @@ unsigned char SDB_GetUsedSize()
 bool SDB_AddEntry(uint8 id, uint8 year, uint8 *courses, uint8 *degrees)
 {
     student entry = {id,year,courses[0],courses[1],courses[2],
-                        degrees[0],degrees[1],degrees[2]};
+                        degrees[0],degrees[1],degrees[2],0};
     bool flag = 1;
     for(int i = 0; i < COUNT; i++)
     {
@@ -43,7 +48,7 @@ bool SDB_AddEntry(uint8 id, uint8 year, uint8 *courses, uint8 *degrees)
     
     if(!SDB_IsFull() && !SDB_IsIdExist(id) && flag)
     {
-        a[database.enteries] = entry;
+        database.array[database.enteries] = entry;
         database.id_list[database.enteries] = entry.student_id;
         database.enteries++;
         return 1;
@@ -60,11 +65,7 @@ void SDB_DeleteEntry(uint8 id)
     {
         if(a[i].student_id == id)
         {
-            for(int j = i ; j < database.enteries - 1; j++)
-            {
-                a[j] = a[j + 1];
-                database.id_list[j] = database.id_list[j + 1];
-            }
+            database.array[i].empty = 1;
             database.enteries--;
             return;
         }
@@ -77,7 +78,7 @@ bool SDB_ReadEntry(uint8 id, uint8 *year, uint8 *courses, uint8 *degrees)
 {
     for(int i = 0; i < database.enteries;i++)
     {
-        if(a[i].student_id == id)
+        if(a[i].student_id == id && a[i].empty == 0)
         {
             *year = a[i].student_year;
             
@@ -93,6 +94,10 @@ bool SDB_ReadEntry(uint8 id, uint8 *year, uint8 *courses, uint8 *degrees)
             
             return 1;
         }
+        else
+        {
+            printf("Not Founded");
+        }
     }
     return 0;
 }
@@ -100,6 +105,8 @@ bool SDB_ReadEntry(uint8 id, uint8 *year, uint8 *courses, uint8 *degrees)
 void SDB_GetIdList(uint8 *count, uint8 *list)
 {
     *count = database.enteries;
+    //list = database.id_list;
+    //uint8 *l = (uint8*) calloc(database.enteries, sizeof(uint8));
     for(int i = 0; i < database.enteries; i++)
     {
         list[i] = database.id_list[i];
