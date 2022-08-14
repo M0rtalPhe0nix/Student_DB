@@ -23,7 +23,7 @@ int main()
     uint8 count;
     while (1)
     {
-        printf("Enter a number from 0 to 6 to use My DATABASE\n");
+        printf("Features :\n0 : Is the Database Full?\t\t1 : Filled Slots\n2 : Add an Student\t\t\t\t3 : Delete a Student\n4 : Query a Student\t\t\t\t5 : Get All Records\n6 : is the ID exist\n");
         scanf("%d",&func);
         switch (func) {
             case 0:
